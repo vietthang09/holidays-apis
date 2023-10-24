@@ -1,12 +1,13 @@
 const db = require("./db");
 const cheerio = require("cheerio");
+const axios = require("axios");
 
 async function crawl() {
   for (let year = 2000; year <= 2040; year++) {
-    const reponse = await fetch(
+    const reponse = await axios.get(
       `https://www.timeanddate.com/holidays/brazil/${year}`
     );
-    const htmlString = await reponse.text();
+    const htmlString = await reponse.data;
     const $ = cheerio.load(htmlString);
     const table = $("table#holidays-table");
     const trs = $(table).find("tr");
